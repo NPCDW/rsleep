@@ -31,7 +31,14 @@ rslepp --week-day 1-4 8 --week-day 5 7 --week-day 6-7 12
 
 睡眠时长的参数可以为 数字 ，默认以 秒 为单位，可以是时间范围，也可以是时分秒组合，单位只包括 s秒 m分钟 h小时。
 
-工作日节假日数据不内置、不硬编码，而是按当前年份实时下载 holiday-cn 的数据：
+工作日节假日数据不内置、不硬编码，而是按当前年份从 holiday-cn 下载：
 ```
 https://raw.githubusercontent.com/NateScarlet/holiday-cn/refs/heads/master/<年>.json
 ```
+
+下载后的数据会缓存到系统缓存目录，之后优先使用缓存、不再重复下载：
+- Linux：`~/.cache/rsleep/<年>.json`（遵循 XDG 规范）
+- macOS：`~/Library/Caches/rsleep/<年>.json`
+- Windows：`%LOCALAPPDATA%\rsleep\cache\<年>.json`
+
+若本地没有缓存且下载失败，将打印警告并按工作日处理，使用 `--workday` 时长。
